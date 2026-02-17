@@ -119,8 +119,10 @@
             <div class="checkbox-group">
                 <input type="checkbox" value="expose-profile" name="category" id="opt-exp">
                 <label for="opt-exp">expose-profile</label><br>
+
                 <input type="checkbox" value="depend" name="category" id="opt-dep">
                 <label for="opt-dep">depend</label><br>
+
                 <input type="checkbox" value="assembly-profile" name="category" id="opt-asm">
                 <label for="opt-asm">assembly-profile</label><br>
             </div>
@@ -131,27 +133,27 @@
                 <label for="opt-cobol">COBOL</label>
                 <span class="toggle" onclick="toggleCobol()">[expand]</span>
 
-                <!-- COBOL SUB LIST (clean labels, full values preserved) -->
+                <!-- COBOL SUB LIST (values WITHOUT module prefix) -->
                 <div id="cobol-sublist" class="sub-list">
 
-                    <input type="checkbox" name="cobol-sub" value="chg-service-xtr-cpy"> service-xtr-cpy<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-service-xtr"> service-xtr<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-service-mtr-cpy"> service-mtr-cpy<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-service-mtr"> service-mtr<br>
+                    <input type="checkbox" name="cobol-sub" value="service-xtr-cpy"> service-xtr-cpy<br>
+                    <input type="checkbox" name="cobol-sub" value="service-xtr"> service-xtr<br>
+                    <input type="checkbox" name="cobol-sub" value="service-mtr-cpy"> service-mtr-cpy<br>
+                    <input type="checkbox" name="cobol-sub" value="service-mtr"> service-mtr<br>
 
-                    <input type="checkbox" name="cobol-sub" value="chg-service-legacy-cpy"> service-legacy-cpy<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-service-legacy"> service-legacy<br>
+                    <input type="checkbox" name="cobol-sub" value="service-legacy-cpy"> service-legacy-cpy<br>
+                    <input type="checkbox" name="cobol-sub" value="service-legacy"> service-legacy<br>
 
-                    <input type="checkbox" name="cobol-sub" value="chg-printing-prtf-cpy"> printing-prtf-cpy<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-printing-prtf"> printing-prtf<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-printing-avis"> printing-avis<br>
+                    <input type="checkbox" name="cobol-sub" value="printing-prtf-cpy"> printing-prtf-cpy<br>
+                    <input type="checkbox" name="cobol-sub" value="printing-prtf"> printing-prtf<br>
+                    <input type="checkbox" name="cobol-sub" value="printing-avis"> printing-avis<br>
 
-                    <input type="checkbox" name="cobol-sub" value="chg-dspf-ui"> dspf-ui<br>
+                    <input type="checkbox" name="cobol-sub" value="dspf-ui"> dspf-ui<br>
 
-                    <input type="checkbox" name="cobol-sub" value="chg-database-dds-multi-cpy"> database-dds-multi-cpy<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-database-dds-multi"> database-dds-multi<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-database-dds-cpy"> database-dds-cpy<br>
-                    <input type="checkbox" name="cobol-sub" value="chg-database-dds"> database-dds<br>
+                    <input type="checkbox" name="cobol-sub" value="database-dds-multi-cpy"> database-dds-multi-cpy<br>
+                    <input type="checkbox" name="cobol-sub" value="database-dds-multi"> database-dds-multi<br>
+                    <input type="checkbox" name="cobol-sub" value="database-dds-cpy"> database-dds-cpy<br>
+                    <input type="checkbox" name="cobol-sub" value="database-dds"> database-dds<br>
 
                 </div>
             </div>
@@ -160,8 +162,10 @@
             <div class="checkbox-group">
                 <input type="checkbox" value="X3S" name="category" id="opt-x3s">
                 <label for="opt-x3s">X3S</label><br>
+
                 <input type="checkbox" value="SDE" name="category" id="opt-sde">
                 <label for="opt-sde">SDE</label><br>
+
                 <input type="checkbox" value="X3NATIF" name="category" id="opt-x3natif">
                 <label for="opt-x3natif">X3NATIF</label><br>
             </div>
@@ -181,7 +185,6 @@ function toggleCobol() {
 document.getElementById("redirectForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Modules can be comma-separated
     const nameInput = document.getElementById("nameInput").value.trim();
     const names = nameInput.split(",").map(n => n.trim()).filter(n => n !== "");
 
@@ -200,29 +203,30 @@ document.getElementById("redirectForm").addEventListener("submit", function (e) 
         return;
     }
 
-    // First 3 are special (mgmt/dep-mgmt)
     const special = ["expose-profile", "depend", "assembly-profile"];
 
     names.forEach(nameValue => {
 
-        // Base redirect if no options at all
+        // Base URL if no options
         if (categories.length === 0 && cobolSubs.length === 0) {
             const baseUrl = `https://innersource.soprasteria.com/sab-at/business/${nameValue}`;
             window.open(baseUrl, "_blank");
         }
 
-        // Process main options
+        // Main category logic
         categories.forEach(option => {
             let url = "";
 
             if (special.includes(option)) {
-                // IMPORTANT: include <module>-<option> in the final segment
+
                 const tail = `${nameValue}-${option}`;
+
                 if (revisionValue !== "") {
                     url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/mgmt/dep-mgmt/${tail}/-/tree/${revisionValue}?ref_type=heads`;
                 } else {
                     url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/mgmt/dep-mgmt/${tail}`;
                 }
+
             }
             else if (option === "COBOL") {
                 url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/COBOL`;
@@ -234,14 +238,19 @@ document.getElementById("redirectForm").addEventListener("submit", function (e) 
             window.open(url, "_blank");
         });
 
-        // COBOL sub-items (support revision; values kept full)
+        // COBOL sub-items (module prefix added dynamically)
         cobolSubs.forEach(sub => {
+
+            const finalSub = `${nameValue}-${sub}`;
+
             let url = "";
+
             if (revisionValue !== "") {
-                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/cobol/${sub}/-/tree/${revisionValue}?ref_type=heads`;
+                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/cobol/${finalSub}/-/tree/${revisionValue}?ref_type=heads`;
             } else {
-                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/cobol/${sub}`;
+                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/cobol/${finalSub}`;
             }
+
             window.open(url, "_blank");
         });
 
