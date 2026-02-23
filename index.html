@@ -209,7 +209,7 @@ document.getElementById("redirectForm").addEventListener("submit", function (e) 
 
         // Base URL if no options
         if (categories.length === 0 && cobolSubs.length === 0) {
-            const baseUrl = `https://innersource.soprasteria.com/sab-at/business/${nameValue}`;
+            const baseUrl = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}`;
             window.open(baseUrl, "_blank");
         }
 
@@ -222,17 +222,17 @@ document.getElementById("redirectForm").addEventListener("submit", function (e) 
                 const tail = `${nameValue}-${option}`;
 
                 if (revisionValue !== "") {
-                    url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/mgmt/dep-mgmt/${tail}/-/tree/${revisionValue}?ref_type=heads`;
+                    url = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}/mgmt/dep-mgmt/${tail}/-/tree/${revisionValue}?ref_type=heads`;
                 } else {
-                    url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/mgmt/dep-mgmt/${tail}`;
+                    url = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}/mgmt/dep-mgmt/${tail}`;
                 }
 
             }
             else if (option === "COBOL") {
-                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/COBOL`;
+                url = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}/COBOL`;
             }
             else {
-                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/${option}`;
+                url = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}/${option}`;
             }
 
             window.open(url, "_blank");
@@ -246,9 +246,9 @@ document.getElementById("redirectForm").addEventListener("submit", function (e) 
             let url = "";
 
             if (revisionValue !== "") {
-                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/cobol/${finalSub}/-/tree/${revisionValue}?ref_type=heads`;
+                url = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}/cobol/${finalSub}/-/tree/${revisionValue}?ref_type=heads`;
             } else {
-                url = `https://innersource.soprasteria.com/sab-at/business/${nameValue}/cobol/${finalSub}`;
+                url = `https://gitlab.sbs-software.com/sab-at/business/${nameValue}/cobol/${finalSub}`;
             }
 
             window.open(url, "_blank");
